@@ -1,5 +1,4 @@
-My site is live at: https://hienology.github.io/IT202-Hien-Vo-Section-103/Assignment1/index.html
 
-General site:
+Assignment 1: https://hienology.github.io/IT202-Hien-Vo-Section-103/Assignment1/index.html
 
-https://hienology.github.io/IT202-Hien-Vo-Section-103/
+Assignment 2: https://hienology.github.io/IT202-Hien-Vo-Section-103/Assignment2/index.html

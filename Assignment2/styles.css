@@ -1,22 +1,37 @@
 body {
-  background-color: green;
+  background-image: url("https://uploads.onecompiler.io/43m3nvgh8/442jaen5e/1440x810_cmsv2_f2b14259-e849-512e-8df9-dc49ebc6da46-6531438.webp");
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
 }
- 
+
+section {
+  background-color: rgba(110, 110, 145, 0.85);
+  border: 1px solid rgba(32, 89, 99, 0.9);
+  border-radius: 8px;
+  padding: 10px;
+  margin-block-start: 10px;
+  margin: 25px 25px;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.05);
+}
+
 h2 {
-  color: #fff;
+  color: blue;
   font-family: Helvetica, sans-serif;
+  text-align: center;
 }
 
 h1 {
-  color: #ccc;
+  color: blue;
   font-family: Arial, sans-serif;
   text-align: center;
 }
 
 button {
-  background-color: #04AA6D;
+  background-color: lightblue;
   text-align: center;
   display: inline-block;
+  margin-right: 10px;
 }
 
 label {
@@ -26,4 +41,14 @@ label {
 
 p {
   font-family: Calibri, sans-serif;
+}
+
+input[type="text"] {
+  width: 300px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
 }
