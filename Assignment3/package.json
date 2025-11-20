@@ -1,0 +1,12 @@
+{
+  "name": "assignment-3",
+  "version": "1.0.0",
+  "description": "TXT file analyzer and BMI calculator",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.1"
+  }
+}

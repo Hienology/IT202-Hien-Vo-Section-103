@@ -1,0 +1,74 @@
+body {
+  background-image: url("https://uploads.onecompiler.io/43m3nvgh8/444ykavpc/pcpbudoji51f1.jpeg");
+  background-size: cover; 
+  background-position: center center;
+  background-attachment: fixed;
+}
+
+section {
+  background-color: rgba(110, 110, 145, 0.85);
+  border: 1px solid rgba(32, 89, 99, 0.9);
+  border-radius: 8px;
+  padding: 10px;
+  margin-block-start: 10px;
+  margin: 25px 25px;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.05);
+}
+
+h2 {
+  color: blue;
+  font-family: Helvetica, sans-serif;
+  text-align: center;
+}
+
+h1 {
+  color: blue;
+  font-family: Arial, sans-serif;
+  text-align: center;
+
+}
+
+button {
+  background-color: lightblue;
+  text-align: center;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+button:hover {
+  background-color: cyan;
+}
+
+label {
+  font-family: Calibri, sans-serif;
+  margin: 0;
+}
+
+p {
+  font-family: Calibri, sans-serif;
+  margin: 0;
+}
+
+input[type="number"] {
+  display: flex;
+  width: 200px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  align-content: inline-block;
+  align-items: center;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+#result, #bmiResult { 
+  font-weight: bold; 
+  color: black;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
