@@ -1,4 +1,20 @@
-// Check, process and count the vowels and consonants from the uploaded .txt file
+// Count vowels and consonants if the user uploads a .txt file
+function countVowelsConsonants(text) {
+    text = text.toLowerCase();
+    let vowels = 0, consonants = 0;
+    for (let char of text) {
+        if ('aeiou'.includes(char)) vowels++;
+        else if (char >= 'a' && char <= 'z') consonants++;
+    }
+    return { vowels, consonants };
+}
+
+// Calculate BMI
+function calculateBMIValue(weight, feet, inches) {
+    const heightInInches = feet * 12 + inches;
+    return (weight * 703) / (heightInInches * heightInInches);
+}
+
 function countFile() {
     const fileInput = document.getElementById('fileInput');
     const file = fileInput.files[0];
@@ -7,22 +23,13 @@ function countFile() {
     const reader = new FileReader();
     reader.onload = function(e) {
         const text = e.target.result;
-
-        httpService.countVowelsConsonants(text).subscribe({
-            next: (data) => {
-                document.getElementById('result').innerHTML = 
-                    `Results for file ${file.name} - Vowels: ${data.vowels} <br> Consonants: ${data.consonants}`;
-            },
-            error: (error) => {
-                console.error(error);
-                alert('Error processing file');
-            }
-        });
+        const { vowels, consonants } = countVowelsConsonants(text);
+        document.getElementById('result').innerHTML = 
+            `Vowels: ${vowels} <br> Consonants: ${consonants}`;
     };
     reader.readAsText(file);
 }
 
-// Validate and calculate BMI based on user input
 function calculateBMI() {
     const weight = parseFloat(document.getElementById('pounds').value);
     const feet = parseFloat(document.getElementById('feet').value);
@@ -48,13 +55,6 @@ function calculateBMI() {
         return;
     }
 
-    httpService.calculateBMI(weight, feet, inches).subscribe({
-        next: (data) => {
-            document.getElementById('bmiResult').textContent = `BMI is ${data.bmi.toFixed(2)}`;
-        },
-        error: (error) => {
-            console.error(error);
-            alert('Error calculating BMI');
-        }
-    });
+    const bmi = calculateBMIValue(weight, feet, inches);
+    document.getElementById('bmiResult').textContent = `BMI is ${bmi.toFixed(2)}`;
 }
