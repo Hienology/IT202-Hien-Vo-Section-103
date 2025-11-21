@@ -25,7 +25,7 @@ function countFile() {
         const text = e.target.result;
         const { vowels, consonants } = countVowelsConsonants(text);
         document.getElementById('result').innerHTML = 
-            `Vowels: ${vowels} <br> Consonants: ${consonants}`;
+            `<br> Filename: ${file.name} <br> Vowels: ${vowels} <br> Consonants: ${consonants}`;
     };
     reader.readAsText(file);
 }
