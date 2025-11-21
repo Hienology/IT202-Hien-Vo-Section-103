@@ -11,7 +11,7 @@ function countFile() {
         httpService.countVowelsConsonants(text).subscribe({
             next: (data) => {
                 document.getElementById('result').innerHTML = 
-                    `Vowels: ${data.vowels} <br> Consonants: ${data.consonants}`;
+                    `Results for file ${file.name} - Vowels: ${data.vowels} <br> Consonants: ${data.consonants}`;
             },
             error: (error) => {
                 console.error(error);
