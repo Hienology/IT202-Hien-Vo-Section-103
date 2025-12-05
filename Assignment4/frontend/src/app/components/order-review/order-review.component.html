@@ -1,0 +1,165 @@
+<div class="container my-5">
+  <!-- Order Confirmation Success Page -->
+  <div *ngIf="showConfirmation" class="confirmation-section">
+    <div class="card shadow-lg border-success">
+      <div class="card-body text-center py-5">
+        <div class="success-icon mb-4">
+          <i class="bi bi-check-circle-fill text-success" style="font-size: 5rem;"></i>
+        </div>
+        <h1 class="display-4 text-success mb-3">Order Confirmed!</h1>
+        <p class="lead text-muted mb-4">Thank you for your purchase. Your order has been successfully placed.</p>
+        
+        <div class="order-summary-box mx-auto" style="max-width: 600px;">
+          <div class="card bg-light">
+            <div class="card-body">
+              <h5 class="card-title mb-3">Order Details</h5>
+              <div class="row mb-2">
+                <div class="col-6 text-start"><strong>Order ID:</strong></div>
+                <div class="col-6 text-end">#{{ orderDetails?.orderId }}</div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-6 text-start"><strong>Product:</strong></div>
+                <div class="col-6 text-end">{{ orderDetails?.product?.name }}</div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-6 text-start"><strong>Quantity:</strong></div>
+                <div class="col-6 text-end">{{ orderDetails?.quantity }}</div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-6 text-start"><strong>Customer:</strong></div>
+                <div class="col-6 text-end">{{ orderDetails?.customerName }}</div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-6 text-start"><strong>Email:</strong></div>
+                <div class="col-6 text-end">{{ orderDetails?.email }}</div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-6 text-start"><strong>Total:</strong></div>
+                <div class="col-6 text-end"><h4 class="text-primary mb-0">${{ orderDetails?.total?.toFixed(2) }}</h4></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <p class="text-muted">A confirmation email has been sent to {{ orderDetails?.email }}</p>
+          <button class="btn btn-primary btn-lg mt-3" (click)="backToProducts()">
+            <i class="bi bi-arrow-left"></i> Continue Shopping
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Review Form -->
+  <div *ngIf="!showConfirmation">
+    <div class="text-center mb-4">
+      <h1 class="display-5">Review Your Order</h1>
+      <p class="lead text-muted">Please review your order details and provide shipping information</p>
+    </div>
+
+    <div *ngIf="!selectedProduct" class="alert alert-warning text-center" role="alert">
+      <i class="bi bi-exclamation-triangle"></i> No product selected. Please go back and select a product.
+    </div>
+
+    <div *ngIf="selectedProduct" class="row">
+      <!-- Product Details -->
+      <div class="col-lg-6 mb-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="bi bi-box-seam"></i> Product Details</h5>
+          </div>
+          <div class="card-body">
+            <img [src]="selectedProduct.imageUrl" [alt]="selectedProduct.name" class="img-fluid rounded mb-3">
+            <h4>{{ selectedProduct.name }}</h4>
+            <p class="text-muted">{{ selectedProduct.description }}</p>
+            <h3 class="text-primary">${{ selectedProduct.price.toFixed(2) }}</h3>
+            
+            <!-- Quantity Selector -->
+            <div class="mt-4">
+              <label class="form-label"><strong>Quantity:</strong></label>
+              <div class="input-group" style="max-width: 200px;">
+                <button class="btn btn-outline-secondary" type="button" (click)="decrementQuantity()">
+                  <i class="bi bi-dash"></i>
+                </button>
+                <input type="number" class="form-control text-center" [(ngModel)]="quantity" min="1" readonly>
+                <button class="btn btn-outline-secondary" type="button" (click)="incrementQuantity()">
+                  <i class="bi bi-plus"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Total -->
+            <div class="mt-4 p-3 bg-light rounded">
+              <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Total:</h5>
+                <h3 class="text-primary mb-0">${{ total.toFixed(2) }}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Customer Information Form -->
+      <div class="col-lg-6 mb-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="bi bi-person-fill"></i> Shipping Information</h5>
+          </div>
+          <div class="card-body">
+            <form>
+              <div class="mb-3">
+                <label for="customerName" class="form-label">Full Name *</label>
+                <input type="text" 
+                       class="form-control" 
+                       id="customerName" 
+                       [(ngModel)]="customerName"
+                       name="customerName"
+                       placeholder="Enter your full name"
+                       required>
+              </div>
+
+              <div class="mb-3">
+                <label for="email" class="form-label">Email Address *</label>
+                <input type="email" 
+                       class="form-control" 
+                       id="email" 
+                       [(ngModel)]="email"
+                       name="email"
+                       placeholder="your.email@example.com"
+                       required>
+              </div>
+
+              <div class="mb-3">
+                <label for="address" class="form-label">Shipping Address *</label>
+                <textarea class="form-control" 
+                          id="address" 
+                          [(ngModel)]="address"
+                          name="address"
+                          rows="4"
+                          placeholder="Enter your complete shipping address"
+                          required></textarea>
+              </div>
+
+              <div class="d-grid gap-2">
+                <button type="button" 
+                        class="btn btn-success btn-lg" 
+                        (click)="submitOrder()"
+                        [disabled]="submitting || !customerName || !email || !address">
+                  <span *ngIf="!submitting">
+                    <i class="bi bi-check-circle"></i> Place Order
+                  </span>
+                  <span *ngIf="submitting">
+                    <span class="spinner-border spinner-border-sm me-2"></span>
+                    Processing...
+                  </span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Office Supplies Store - Assignment 4</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="app/components/product-list/product-list.component.css">
+  <link rel="stylesheet" href="app/components/order-review/order-review.component.css">
+</head>
+<body>
+  <!-- Header -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand" href="#" onclick="showProductList()">
+        <i class="bi bi-shop"></i> Office Supplies Store
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="#" onclick="showProductList()">Products</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Product List Section -->
+    <section id="product-list-section" style="display: block;">
+      <div class="container my-5">
+        <div class="text-center mb-5">
+          <h1 class="display-4">Our Products</h1>
+          <p class="lead text-muted">Browse our selection of quality office furniture and equipment</p>
+        </div>
+        <div id="product-list-container"></div>
+      </div>
+    </section>
+
+    <!-- Order Review Section -->
+    <section id="order-review-section" style="display: none;">
+      <div class="container my-5">
+        <div id="order-review-container"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white py-4 mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <h5><i class="bi bi-shop"></i> Office Supplies Store</h5>
+          <p class="text-muted">Your trusted source for quality office furniture and equipment.</p>
+        </div>
+        <div class="col-md-4">
+          <h5>Quick Links</h5>
+          <ul class="list-unstyled">
+            <li><a href="#" onclick="showProductList()" class="text-muted text-decoration-none">Products</a></li>
+            <li><a href="#about" class="text-muted text-decoration-none">About Us</a></li>
+            <li><a href="#contact" class="text-muted text-decoration-none">Contact</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h5>Contact Us</h5>
+          <p class="text-muted">
+            <i class="bi bi-envelope"></i> info@officesupplies.com<br>
+            <i class="bi bi-telephone"></i> (555) 123-4567
+          </p>
+        </div>
+      </div>
+      <hr class="bg-secondary">
+      <div class="text-center text-muted">
+        <p>&copy; 2025 Office Supplies Store. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Application Scripts - Pure JavaScript in .ts files -->
+  <script src="app/services/http.service.ts"></script>
+  <script src="app/services/product.service.ts"></script>
+  <script src="app/components/product-list/product-list.component.ts"></script>
+  <script src="app/components/order-review/order-review.component.ts"></script>
+  
+  <!-- Application Initialization -->
+  <script>
+    // Initialize services
+    const httpService = new HttpService();
+    const productService = new ProductService(httpService);
+    
+    // Initialize components
+    const productListComponent = new ProductListComponent(productService, httpService);
+    const orderReviewComponent = new OrderReviewComponent(httpService);
+    
+    // Make components globally accessible
+    window.productListComponent = productListComponent;
+    window.orderReviewComponent = orderReviewComponent;
+    
+    // Helper function to show product list
+    function showProductList() {
+      document.getElementById('product-list-section').style.display = 'block';
+      document.getElementById('order-review-section').style.display = 'none';
+      productListComponent.init();
+    }
+    
+    // Initialize the app when DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+      productListComponent.init();
+    });
+  </script>
+</body>
+</html>
