@@ -11,9 +11,8 @@ import { ProductService } from './services/product.service';
 @Injectable()
 class GlobalErrorHandler implements ErrorHandler {
   handleError(error: any): void {
-    console.error('Global error caught:', error);
-    // Show user-friendly message for uncaught errors
-    alert('An unexpected error occurred. Please try again or refresh the page.');
+    console.error('An unexpected error occurred:', error);
+    console.error('Error details:', error.message || error);
   }
 }
 

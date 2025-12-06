@@ -6,6 +6,7 @@ import { ProductService } from '../../services/product.service';
   selector: 'app-product-list',
   templateUrl: './product-list.component.html'
 })
+
 export class ProductListComponent implements OnInit {
   /** Array of products from the API */
   products: any[] = [];
@@ -25,7 +26,7 @@ export class ProductListComponent implements OnInit {
       await this.productService.selectProduct(product);
       this.router.navigate(['/review']);
     } catch (error) {
-      alert("Error selecting product. Is the server running?");
+      console.error("Error selecting product. Is the server running?", error);
     }
   }
 }
