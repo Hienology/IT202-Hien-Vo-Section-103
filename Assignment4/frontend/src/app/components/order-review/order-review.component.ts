@@ -5,7 +5,7 @@ import { HttpService } from '../../services/http.service';
 @Component({
   selector: 'app-order-review',
   templateUrl: './order-review.component.html',
-  styleUrls: ['./order-review.component.css']
+  styleUrl: './order-review.component.css'
 })
 export class OrderReviewComponent implements OnInit {
   selectedProduct: any = null;

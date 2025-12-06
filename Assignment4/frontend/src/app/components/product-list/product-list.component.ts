@@ -6,12 +6,12 @@ import { HttpService } from '../../services/http.service';
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.css']
+  styleUrl: './product-list.component.css'
 })
 export class ProductListComponent implements OnInit {
   products: any[] = [];
   loading: boolean = false;
-  error: string = '';
+  errorMessage: string = '';
 
   constructor(
     private productService: ProductService,
@@ -29,9 +29,9 @@ export class ProductListComponent implements OnInit {
     try {
       this.products = await this.productService.getProducts();
       this.loading = false;
-      this.error = '';
+      this.errorMessage = '';
     } catch (err) {
-      this.error = 'Failed to load products';
+      this.errorMessage = 'Failed to load products';
       this.loading = false;
       console.error('Error loading products:', err);
     }

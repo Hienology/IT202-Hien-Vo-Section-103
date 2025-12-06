@@ -52,10 +52,10 @@ let selectedProduct = null;
 // 1. GET /api/products - Returns list of 4 products in JSON
 app.get('/api/products', (req, res) => {
   try {
-    res.json(products);
+    res.json({ success: true, data: products });
   } catch (error) {
     console.error('Error fetching products:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ success: false, error: 'Internal server error while fetching products' });
   }
 });
 
@@ -66,18 +66,18 @@ app.post('/api/select-product', (req, res) => {
     
     const product = products.find(p => p.id === productId);
     if (!product) {
-      return res.status(404).json({ error: 'Product not found' });
+      return res.status(404).json({ success: false, error: 'Product not found' });
     }
 
     selectedProduct = { ...product, quantity: 1 };
     res.json({ 
       success: true, 
       message: `${product.name} has been selected for your order`,
-      product: selectedProduct 
+      data: selectedProduct 
     });
   } catch (error) {
     console.error('Error selecting product:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ success: false, error: 'Internal server error while selecting product' });
   }
 });
 
@@ -85,12 +85,12 @@ app.post('/api/select-product', (req, res) => {
 app.get('/api/selected-product', (req, res) => {
   try {
     if (!selectedProduct) {
-      return res.status(404).json({ error: 'No product selected' });
+      return res.status(404).json({ success: false, error: 'No product selected' });
     }
-    res.json(selectedProduct);
+    res.json({ success: true, data: selectedProduct });
   } catch (error) {
     console.error('Error fetching selected product:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ success: false, error: 'Internal server error while fetching selected product' });
   }
 });
 
@@ -98,17 +98,19 @@ app.get('/api/selected-product', (req, res) => {
 app.post('/api/submit-order', (req, res) => {
   try {
     if (!selectedProduct) {
-      return res.status(400).json({ error: 'No product selected' });
+      return res.status(400).json({ success: false, error: 'No product selected' });
     }
 
     const orderConfirmation = {
       success: true,
       message: 'Order confirmed successfully!',
-      orderId: Math.floor(Math.random() * 10000) + 1000,
-      product: selectedProduct,
-      total: selectedProduct.price,
-      deliveryMessage: 'We will deliver soon',
-      orderDate: new Date().toISOString()
+      data: {
+        orderId: Math.floor(Math.random() * 10000) + 1000,
+        product: selectedProduct,
+        total: selectedProduct.price,
+        deliveryMessage: 'We will deliver soon',
+        orderDate: new Date().toISOString()
+      }
     };
 
     // Clear selected product after order
@@ -117,7 +119,7 @@ app.post('/api/submit-order', (req, res) => {
     res.status(201).json(orderConfirmation);
   } catch (error) {
     console.error('Error submitting order:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ success: false, error: 'Internal server error while submitting order' });
   }
 });
 

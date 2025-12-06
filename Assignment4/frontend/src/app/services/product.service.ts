@@ -34,22 +34,4 @@ export class ProductService {
       throw error;
     }
   }
-
-  async updateProduct(id: number, product: any): Promise<any> {
-    try {
-      return await this.httpService.put(`products/${id}`, product);
-    } catch (error) {
-      console.error(`Error updating product ${id}:`, error);
-      throw error;
-    }
-  }
-
-  async deleteProduct(id: number): Promise<any> {
-    try {
-      return await this.httpService.delete(`products/${id}`);
-    } catch (error) {
-      console.error(`Error deleting product ${id}:`, error);
-      throw error;
-    }
-  }
 }

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root'})
+
 export class HttpService {
   private baseUrl: string = 'http://localhost:3000/api';
 
@@ -11,10 +10,13 @@ export class HttpService {
   async get(endpoint: string): Promise<any> {
     try {
       const response = await fetch(`${this.baseUrl}/${endpoint}`);
-      if (!response.ok) {
-        throw new Error(`HTTP Error: ${response.status}`);
+      const data = await response.json();
+      
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || `HTTP Error: ${response.status}`);
       }
-      return await response.json();
+      
+      return data.data || data;
     } catch (error) {
       console.error('GET request failed:', error);
       throw error;
@@ -28,44 +30,15 @@ export class HttpService {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
-      if (!response.ok) {
-        throw new Error(`HTTP Error: ${response.status}`);
+      const result = await response.json();
+      
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || `HTTP Error: ${response.status}`);
       }
-      return await response.json();
+      
+      return result.data || result;
     } catch (error) {
       console.error('POST request failed:', error);
-      throw error;
-    }
-  }
-
-  async put(endpoint: string, data: any): Promise<any> {
-    try {
-      const response = await fetch(`${this.baseUrl}/${endpoint}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP Error: ${response.status}`);
-      }
-      return await response.json();
-    } catch (error) {
-      console.error('PUT request failed:', error);
-      throw error;
-    }
-  }
-
-  async delete(endpoint: string): Promise<any> {
-    try {
-      const response = await fetch(`${this.baseUrl}/${endpoint}`, {
-        method: 'DELETE'
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP Error: ${response.status}`);
-      }
-      return await response.json();
-    } catch (error) {
-      console.error('DELETE request failed:', error);
       throw error;
     }
   }
