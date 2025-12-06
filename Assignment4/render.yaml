@@ -2,7 +2,7 @@ services:
   - type: web
     name: assignment4-app
     env: node
-    region: ohio
+    region: virginia
     buildCommand: cd backend && npm install && npm run build
     startCommand: cd backend && NODE_ENV=production npm start
     envVars:
