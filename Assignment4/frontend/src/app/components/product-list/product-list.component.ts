@@ -7,6 +7,7 @@ import { ProductService } from '../../services/product.service';
   templateUrl: './product-list.component.html'
 })
 export class ProductListComponent implements OnInit {
+  /** Array of products from the API */
   products: any[] = [];
 
   constructor(private productService: ProductService, private router: Router) { }

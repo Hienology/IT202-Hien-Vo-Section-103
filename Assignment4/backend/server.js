@@ -1,7 +1,10 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const PORT = 3000;
+
+// Use environment variable for port, fallback to 3000 for development
+const PORT = process.env.PORT || 3000;
+const NODE_ENV = process.env.NODE_ENV || 'development';
 
 // MIDDLEWARE
 app.use(cors());
@@ -55,10 +58,40 @@ app.get('/api/products', (req, res) => {
 
 app.post('/api/select-product', (req, res) => {
     try {
-        if (!req.body) throw new Error("No data received");
+        // Basic validation
+        if (!req.body) {
+            return res.status(400).json({ success: false, error: "No data received" });
+        }
+        
+        const { id, name, price } = req.body;
+        
+        // Validate required fields
+        if (!id || !name || price === undefined) {
+            return res.status(400).json({ 
+                success: false, 
+                error: "Missing required fields: id, name, or price" 
+            });
+        }
+        
+        // Validate types
+        if (typeof id !== 'number' || typeof name !== 'string' || typeof price !== 'number') {
+            return res.status(400).json({ 
+                success: false, 
+                error: "Invalid data types" 
+            });
+        }
+        
+        // Validate ranges
+        if (price < 0 || price > 10000) {
+            return res.status(400).json({ 
+                success: false, 
+                error: "Price must be between 0 and 10000" 
+            });
+        }
+        
         selectedProduct = req.body;
         console.log("User selected:", selectedProduct.name);
-        res.sendStatus(200);
+        res.json({ success: true, message: "Product selected" });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Selection failed" });
@@ -76,12 +109,42 @@ app.get('/api/selected-product', (req, res) => {
 
 app.post('/api/submit-order', (req, res) => {
     try {
-        res.json({ message: "Your item will be delivered soon." });
+        // Basic validation for order submission
+        const { customerName, email, address, quantity } = req.body || {};
+        
+        // Validate customer name (optional but if provided, must be valid)
+        if (customerName && (typeof customerName !== 'string' || customerName.trim().length < 2 || customerName.length > 100)) {
+            return res.status(400).json({ 
+                success: false, 
+                error: "Customer name must be between 2 and 100 characters" 
+            });
+        }
+        
+        // Validate email (optional but if provided, must be valid)
+        if (email && (typeof email !== 'string' || !email.includes('@'))) {
+            return res.status(400).json({ 
+                success: false, 
+                error: "Invalid email format" 
+            });
+        }
+        
+        // Validate quantity if provided
+        if (quantity !== undefined && (typeof quantity !== 'number' || quantity < 1 || quantity > 100)) {
+            return res.status(400).json({ 
+                success: false, 
+                error: "Quantity must be between 1 and 100" 
+            });
+        }
+        
+        res.json({ 
+            success: true,
+            message: "Your item will be delivered soon." 
+        });
     } catch (error) {
         res.status(500).json({ error: "Order failed" });
     }
 });
 
 app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
+    console.log(`Server running in ${NODE_ENV} mode at http://localhost:${PORT}`);
 });
