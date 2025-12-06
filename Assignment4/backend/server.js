@@ -51,54 +51,74 @@ let selectedProduct = null;
 
 // 1. GET /api/products - Returns list of 4 products in JSON
 app.get('/api/products', (req, res) => {
-  res.json(products);
+  try {
+    res.json(products);
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 // 2. POST /api/select-product - Stores data of the chosen product
 app.post('/api/select-product', (req, res) => {
-  const { productId } = req.body;
-  
-  const product = products.find(p => p.id === productId);
-  if (!product) {
-    return res.status(404).json({ error: 'Product not found' });
-  }
+  try {
+    const { productId } = req.body;
+    
+    const product = products.find(p => p.id === productId);
+    if (!product) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
 
-  selectedProduct = { ...product, quantity: 1 };
-  res.json({ 
-    success: true, 
-    message: 'Product selected successfully',
-    product: selectedProduct 
-  });
+    selectedProduct = { ...product, quantity: 1 };
+    res.json({ 
+      success: true, 
+      message: `${product.name} has been selected for your order`,
+      product: selectedProduct 
+    });
+  } catch (error) {
+    console.error('Error selecting product:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 // 3. GET /api/selected-product - Returns the last chosen/selected product
 app.get('/api/selected-product', (req, res) => {
-  if (!selectedProduct) {
-    return res.status(404).json({ error: 'No product selected' });
+  try {
+    if (!selectedProduct) {
+      return res.status(404).json({ error: 'No product selected' });
+    }
+    res.json(selectedProduct);
+  } catch (error) {
+    console.error('Error fetching selected product:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
-  res.json(selectedProduct);
 });
 
 // 4. POST /api/submit-order - Receives order data and sends confirmation
 app.post('/api/submit-order', (req, res) => {
-  if (!selectedProduct) {
-    return res.status(400).json({ error: 'No product selected' });
+  try {
+    if (!selectedProduct) {
+      return res.status(400).json({ error: 'No product selected' });
+    }
+
+    const orderConfirmation = {
+      success: true,
+      message: 'Order confirmed successfully!',
+      orderId: Math.floor(Math.random() * 10000) + 1000,
+      product: selectedProduct,
+      total: selectedProduct.price,
+      deliveryMessage: 'We will deliver soon',
+      orderDate: new Date().toISOString()
+    };
+
+    // Clear selected product after order
+    selectedProduct = null;
+
+    res.status(201).json(orderConfirmation);
+  } catch (error) {
+    console.error('Error submitting order:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
-
-  const orderConfirmation = {
-    success: true,
-    message: 'Order confirmed successfully!',
-    orderId: Math.floor(Math.random() * 10000) + 1000,
-    product: selectedProduct,
-    total: selectedProduct.price,
-    deliveryMessage: 'We will deliver soon',
-    orderDate: new Date().toISOString()
-  };
-
-  // Clear selected product after order
-  selectedProduct = null;
-
-  res.status(201).json(orderConfirmation);
 });
 
 // Start server
