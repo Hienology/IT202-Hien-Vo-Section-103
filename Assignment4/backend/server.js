@@ -1,15 +1,22 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const app = express();
 
 // Use environment variable for port, fallback to 3000 for development
 const PORT = process.env.PORT || 3000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
+const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`;
 
 // MIDDLEWARE
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public')); // Serves images from 'backend/public'
+
+// Serve Angular static files in production
+if (NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../frontend/dist/frontend/browser')));
+}
 
 // TEMPORARY STATE
 let selectedProduct = null;
@@ -21,28 +28,28 @@ const products = [
         name: "Desk Study Lamp", 
         price: 45, 
         description: "Adjustable LED lamp with eye-care technology.", 
-        image: "http://localhost:3000/deskstudylamp.jpg" 
+        image: `${BASE_URL}/deskstudylamp.jpg` 
     },
     { 
         id: 2, 
         name: "Ergonomic Chair", 
         price: 250, 
         description: "High-back chair with lumbar support.", 
-        image: "http://localhost:3000/ergonomicchair.jpg" 
+        image: `${BASE_URL}/ergonomicchair.jpg` 
     },
     { 
         id: 3, 
         name: "Standing Table", 
         price: 400, 
         description: "Motorized sit-stand desk for better posture.", 
-        image: "http://localhost:3000/standingtable.jpg" 
+        image: `${BASE_URL}/standingtable.jpg` 
     },
     { 
         id: 4, 
         name: "Wireless Printer", 
         price: 120, 
         description: "High-speed laser printing with Wi-Fi.", 
-        image: "http://localhost:3000/wirelessprinter.jpg" 
+        image: `${BASE_URL}/wirelessprinter.jpg` 
     }
 ];
 
@@ -144,6 +151,13 @@ app.post('/api/submit-order', (req, res) => {
         res.status(500).json({ error: "Order failed" });
     }
 });
+
+// Catch-all route - serve Angular app for all non-API routes (must be last)
+if (NODE_ENV === 'production') {
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, '../frontend/dist/frontend/browser/index.html'));
+    });
+}
 
 app.listen(PORT, () => {
     console.log(`Server running in ${NODE_ENV} mode at http://localhost:${PORT}`);
