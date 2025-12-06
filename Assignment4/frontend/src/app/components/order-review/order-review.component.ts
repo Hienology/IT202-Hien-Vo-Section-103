@@ -1,60 +1,35 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpService } from '../../services/http.service';
+import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'app-order-review',
-  templateUrl: './order-review.component.html',
-  styleUrl: './order-review.component.css'
+  templateUrl: './order-review.component.html'
 })
 export class OrderReviewComponent implements OnInit {
   selectedProduct: any = null;
-  submitting: boolean = false;
-  showConfirmation: boolean = false;
-  orderDetails: any = null;
+  successMessage: string = "";
 
-  constructor(
-    private httpService: HttpService,
-    private router: Router
-  ) {}
+  constructor(private productService: ProductService, private router: Router) { }
 
-  ngOnInit(): void {
-    this.loadSelectedProduct();
-  }
-
-  async loadSelectedProduct(): Promise<void> {
+  async ngOnInit() {
     try {
-      this.selectedProduct = await this.httpService.get('selected-product');
-    } catch (err) {
-      console.error('Failed to load selected product:', err);
-      this.selectedProduct = null;
+      this.selectedProduct = await this.productService.getSelectedProduct();
+    } catch (error) {
+      console.error("Error fetching selection:", error);
     }
   }
 
-  async submitOrder(): Promise<void> {
-    if (!this.selectedProduct) {
-      alert('No product selected');
-      return;
-    }
-
-    this.submitting = true;
-
+  async onSubmit() {
     try {
-      const response = await this.httpService.post('submit-order', {});
-      console.log('Order submitted successfully:', response);
-      this.orderDetails = response;
-      this.showConfirmation = true;
-      this.submitting = false;
-    } catch (err) {
-      console.error('Order submission failed:', err);
-      alert('Failed to submit order. Please try again.');
-      this.submitting = false;
+      const response: any = await this.productService.submitOrder({});
+      this.successMessage = response.message;
+    } catch (error) {
+      alert("Order failed. Please try again.");
     }
   }
 
-  backToProducts(): void {
-    this.showConfirmation = false;
-    this.selectedProduct = null;
-    this.router.navigate(['/products']);
+  goBack() {
+    this.router.navigate(['/']);
   }
 }
