@@ -6,7 +6,8 @@ const app = express();
 // Use environment variable for port, fallback to 3000 for development
 const PORT = process.env.PORT || 3000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
-const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`;
+// In production, use RENDER_EXTERNAL_URL or BASE_URL, otherwise use localhost
+const BASE_URL = process.env.RENDER_EXTERNAL_URL || process.env.BASE_URL || `http://localhost:${PORT}`;
 
 // MIDDLEWARE
 app.use(cors());
