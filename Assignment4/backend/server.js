@@ -15,7 +15,7 @@ app.use(express.static('public')); // Serves images from 'backend/public'
 
 // Serve Angular static files in production
 if (NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../frontend/dist/frontend/browser')));
+    app.use(express.static(path.join(__dirname, '../frontend/dist/frontend')));
 }
 
 // TEMPORARY STATE
@@ -155,7 +155,7 @@ app.post('/api/submit-order', (req, res) => {
 // Catch-all route - serve Angular app for all non-API routes (must be last)
 if (NODE_ENV === 'production') {
     app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, '../frontend/dist/frontend/browser/index.html'));
+        res.sendFile(path.join(__dirname, '../frontend/dist/frontend/index.html'));
     });
 }
 
