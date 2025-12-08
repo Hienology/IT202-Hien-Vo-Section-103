@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   template: `
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
       <div class="container">
-        <a class="navbar-brand" routerLink="/products">
+        <a class="navbar-brand" routerLink="/">
           <i class="bi bi-shop"></i> Office Supplies Store
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -14,7 +14,7 @@ import { Component } from '@angular/core';
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link" routerLink="/products" routerLinkActive="active">Products</a>
+              <a class="nav-link" routerLink="/" routerLinkActive="active">Products</a>
             </li>
           </ul>
         </div>
