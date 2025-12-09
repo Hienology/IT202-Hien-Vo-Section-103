@@ -9,10 +9,17 @@ export class HttpService {
   constructor(private http: HttpClient) { }
 
   async get(endpoint) {
-    return await lastValueFrom(this.http.get(`${this.baseUrl}${endpoint}`));
+    console.log(`[HTTP GET] Requesting: ${this.baseUrl}${endpoint}`);
+    const response = await lastValueFrom(this.http.get(`${this.baseUrl}${endpoint}`));
+    console.log(`[HTTP GET] Response from ${endpoint}:`, response);
+    return response;
   }
 
   async post(endpoint, data) {
-    return await lastValueFrom(this.http.post(`${this.baseUrl}${endpoint}`, data));
+    console.log(`[HTTP POST] Requesting: ${this.baseUrl}${endpoint}`);
+    console.log(`[HTTP POST] Payload:`, data);
+    const response = await lastValueFrom(this.http.post(`${this.baseUrl}${endpoint}`, data));
+    console.log(`[HTTP POST] Response from ${endpoint}:`, response);
+    return response;
   }
 }
