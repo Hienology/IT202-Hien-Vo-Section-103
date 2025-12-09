@@ -16,7 +16,7 @@ import { Component } from '@angular/core';
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <a class="nav-link" href="https://www.linkedin.com/in/hien-vo-minh-28b553327/" target="_blank" rel="noopener noreferrer">
-                <img src="https://uploads.onecompiler.io/43m3nvgh8/43m3qv6kd/3536505.png" alt="LinkedIn" style="max-width:10%" align="right" align-items= "center">
+                <img class="align-middle" src="https://uploads.onecompiler.io/43m3nvgh8/43m3qv6kd/3536505.png" alt="LinkedIn" style="max-width:10%" align="right">
               </a>
             </li>
           </ul>
