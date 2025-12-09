@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
       <div class="container-fluid">
         <a class="navbar-brand" routerLink="/">
-          <i class="bi bi-shop"></i> Office Supplies Store
+          <i class="bi bi-shop"></i> OFFICE SUPPLIES STORE
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
@@ -15,7 +15,7 @@ import { Component } from '@angular/core';
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link" routerLink="/" routerLinkActive="active">Products</a>
+              <a class="nav-link" routerLink="/" routerLinkActive="active" href="https://www.linkedin.com/in/hien-vo-minh-28b553327/"> <img src="https://uploads.onecompiler.io/43m3nvgh8/43m3qv6kd/3536505.png" alt="LinkedIn" style="max-width:10%" align ="right"> </a>
             </li>
           </ul>
         </div>
