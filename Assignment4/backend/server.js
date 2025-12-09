@@ -156,6 +156,10 @@ app.post('/api/submit-order', (req, res) => {
 // Catch-all route - serve Angular app for all non-API routes (must be last)
 if (NODE_ENV === 'production') {
     app.use((req, res) => {
+        // Prevent caching of index.html to avoid serving stale versions
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
         res.sendFile(path.join(__dirname, '../frontend/dist/frontend/index.html'));
     });
 }
