@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-root',
   template: `
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">

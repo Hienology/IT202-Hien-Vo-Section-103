@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 
 @Component({
+  standalone: false,
   selector: 'app-order-review',
   templateUrl: './order-review.component.html'
 })
