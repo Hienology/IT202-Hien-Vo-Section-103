@@ -5,8 +5,8 @@ const app = express();
 
 // Use environment variable for port, fallback to 3000 for development
 const PORT = process.env.PORT || 3000;
-const NODE_ENV = process.env.NODE_ENV || 'development';
-// In production, use RENDER_EXTERNAL_URL or BASE_URL, otherwise use localhost
+const NODE_ENV = process.env.NODE_ENV || 'development'; // It's Render time!
+// Use RENDER_EXTERNAL_URL or BASE_URL, otherwise use localhost
 const BASE_URL = process.env.RENDER_EXTERNAL_URL || process.env.BASE_URL || `http://localhost:${PORT}`;
 
 // MIDDLEWARE
@@ -90,10 +90,10 @@ app.post('/api/select-product', (req, res) => {
         }
         
         // Validate ranges
-        if (price < 0 || price > 10000) {
+        if (price <= 0) {
             return res.status(400).json({ 
                 success: false, 
-                error: "Price must be between 0 and 10000" 
+                error: "Price must be a positive number" 
             });
         }
         
@@ -117,33 +117,6 @@ app.get('/api/selected-product', (req, res) => {
 
 app.post('/api/submit-order', (req, res) => {
     try {
-        // Basic validation for order submission
-        const { customerName, email, address, quantity } = req.body || {};
-        
-        // Validate customer name (optional but if provided, must be valid)
-        if (customerName && (typeof customerName !== 'string' || customerName.trim().length < 2 || customerName.length > 100)) {
-            return res.status(400).json({ 
-                success: false, 
-                error: "Customer name must be between 2 and 100 characters" 
-            });
-        }
-        
-        // Validate email (optional but if provided, must be valid)
-        if (email && (typeof email !== 'string' || !email.includes('@'))) {
-            return res.status(400).json({ 
-                success: false, 
-                error: "Invalid email format" 
-            });
-        }
-        
-        // Validate quantity if provided
-        if (quantity !== undefined && (typeof quantity !== 'number' || quantity < 1 || quantity > 100)) {
-            return res.status(400).json({ 
-                success: false, 
-                error: "Quantity must be between 1 and 100" 
-            });
-        }
-        
         res.json({ 
             success: true,
             message: "Your item will be delivered soon." 
