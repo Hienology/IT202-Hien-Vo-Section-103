@@ -6,9 +6,9 @@ import { Component } from '@angular/core';
   template: `
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
       <div class="container-fluid">
-        <a class="navbar-brand" routerLink="/">
+        <span class="navbar-brand">
           <i class="bi bi-shop"></i> OFFICE SUPPLIES STORE
-        </a>
+        </span>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
