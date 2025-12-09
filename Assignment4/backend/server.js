@@ -155,7 +155,7 @@ app.post('/api/submit-order', (req, res) => {
 
 // Catch-all route - serve Angular app for all non-API routes (must be last)
 if (NODE_ENV === 'production') {
-    app.get('*', (req, res) => {
+    app.use((req, res) => {
         res.sendFile(path.join(__dirname, '../frontend/dist/frontend/index.html'));
     });
 }
