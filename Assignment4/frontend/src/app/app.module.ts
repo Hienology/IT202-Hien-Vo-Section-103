@@ -1,6 +1,5 @@
 import { NgModule, ErrorHandler, Injectable } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,7 +25,6 @@ class GlobalErrorHandler implements ErrorHandler {
   ],
   imports: [
     BrowserModule,
-    CommonModule,
     HttpClientModule,
     AppRoutingModule
   ],
